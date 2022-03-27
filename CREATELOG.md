@@ -56,3 +56,56 @@ import "element-ui/lib/theme-chalk/index.css";
 
 Vue.use(ElementUI)
 ```
+
+2. 修改`./src/router/index.js`路由文件
+
+```javascript
+import Vue from "vue";
+import Router from "vue-router";
+
+const Home = () => import("../views/home/index.vue");
+
+Vue.use(Router);
+
+export default new Router({
+  routes: [
+    {
+      path: "/",
+      name: "Home",
+      component: Home
+    }
+  ]
+});
+```
+
+3. 引入`scss`并配置全局样式
+
+- 下载`node-sass`、`sass-loader`、`sass-resources-loader`npm包
+
+```shell
+npm install node-sass sass-loader sass-resources-loader -D
+```
+
+- 修改`./build/webpack.base.conf.js`
+
+```javascript
+// rules下添加以下配置
+{
+  test: /\.sass$/,
+  loaders: ["style", "css", "scss"]
+}
+```
+
+-
+
+报错相关解决方案：
+
+- `Module build failed: TypeError: this.getOptions is not a function`
+
+解决方案：修改`./package.json`再执行`npm install`
+
+```javascript
+{
+  "sass-loader": "^4.0.0",
+}
+```
