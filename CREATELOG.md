@@ -48,7 +48,7 @@ git push -u origin main
 npm i element-ui -S
 ```
 
-- 修改`./src/main.js`
+- 修改`./src/main.js`：
 
 ```javascript
 import ElementUI from "element-ui";
@@ -57,7 +57,7 @@ import "element-ui/lib/theme-chalk/index.css";
 Vue.use(ElementUI)
 ```
 
-2. 修改`./src/router/index.js`路由文件
+2. 修改`./src/router/index.js`路由文件：
 
 ```javascript
 import Vue from "vue";
@@ -86,7 +86,7 @@ export default new Router({
 npm install node-sass sass-loader sass-resources-loader -D
 ```
 
-- 修改`./build/webpack.base.conf.js`
+- 修改`./build/webpack.base.conf.js`：
 
 ```javascript
 // rules下添加以下配置
@@ -96,9 +96,48 @@ npm install node-sass sass-loader sass-resources-loader -D
 }
 ```
 
--
+- 配置全局样式文件`./src/style/common.scss`
 
-报错相关解决方案：
+- 修改`./build/utils.js`：
+
+```javascript
+exports.cssLoaders = function(options) {
+  ...
+  return {
+    css: generateLoaders(),
+    postcss: generateLoaders(),
+    less: generateLoaders("less"),
+    sass: generateLoaders("sass", { indentedSyntax: true }),
+    scss: generateLoaders("sass"),
+    stylus: generateLoaders("stylus"),
+    styl: generateLoaders("stylus")
+  };
+};
+```
+
+改为
+
+```javascript
+exports.cssLoaders = function(options) {
+  ...
+  return {
+    css: generateLoaders(),
+    postcss: generateLoaders(),
+    less: generateLoaders("less"),
+    sass: generateLoaders("sass", { indentedSyntax: true }),
+    scss: generateLoaders("sass").concat({
+      loader: "sass-resources-loader",
+      options: {
+        resources: path.resolve(__dirname, "./../src/style/common.scss")
+      }
+    }),
+    stylus: generateLoaders("stylus"),
+    styl: generateLoaders("stylus")
+  };
+};
+```
+
+**报错相关解决方案**：
 
 - `Module build failed: TypeError: this.getOptions is not a function`
 
