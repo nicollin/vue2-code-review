@@ -1,11 +1,14 @@
 <template>
   <div class="pure">
-    开始
+    <router-nav />
   </div>
 </template>
 
 <script>
-export default {};
+import RouterNav from "@/components/common/router-nav";
+export default {
+  components: { RouterNav }
+};
 </script>
 
 <style scoped lang="scss"></style>
